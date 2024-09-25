@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+
+yiming1234:
+  server:
+    host: ${yiming1234.server.host}
+
+  mail:
+    host: ${yiming1234.mail.host}
+    port: ${yiming1234.mail.port}
+    from: ${yiming1234.mail.from}
+    subject: ${yiming1234.mail.subject}
+
+  alioss:
+    endpoint: ${yiming1234.alioss.endpoint}
+    access-key-id: ${yiming1234.alioss.access-key-id}
+    access-key-secret: ${yiming1234.alioss.access-key-secret}
+    bucket-name: ${yiming1234.alioss.bucket-name}
