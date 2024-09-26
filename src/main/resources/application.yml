@@ -32,3 +32,8 @@ yiming1234:
   sanfengyun:
     username: ${yiming1234.server.username}
     password: ${yiming1234.server.password}
+    text: "帮我生成大约50字的关于三丰云免费虚拟主机，免费云服务器的测评"
+
+  linkai:
+    app_code: ${yiming1234.linkai.app_code}
+    api_key: ${yiming1234.linkai.api_key}
