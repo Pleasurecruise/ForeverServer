@@ -19,8 +19,8 @@ public class MailProperties {
     private String port;
     private String username;
     private String password;
-    private String to;
     private String subject;
+    private String to;
 
     @Bean
     public JavaMailSender javaMailSender() {

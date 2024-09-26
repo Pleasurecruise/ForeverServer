@@ -17,17 +17,17 @@ import java.io.File;
 public class MailUtil {
 
     @Autowired
-    private JavaMailSender mailSender;
+    private static JavaMailSender mailSender;
 
     /**
      * 发送文本邮件
      */
-    public void sendMail(String to, String subject, double balance) {
+    public static void sendMail(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("pleasurecruise@qq.com");
         message.setTo(to);
         message.setSubject(subject);
-        message.setText("您的电费余额不足，当前余额为：" + balance + "元。");
+        message.setText("当前审核状态为：" + text);
         mailSender.send(message);
     }
 

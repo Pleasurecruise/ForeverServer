@@ -2,6 +2,11 @@ server:
   port: 8080
 
 spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/foreverserver
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
   profiles:
     active: dev
 
@@ -10,13 +15,20 @@ yiming1234:
     host: ${yiming1234.server.host}
 
   mail:
-    host: ${yiming1234.mail.host}
-    port: ${yiming1234.mail.port}
-    from: ${yiming1234.mail.from}
-    subject: ${yiming1234.mail.subject}
+    username: ${yiming1234.mail.username}
+    password: ${yiming1234.mail.password}
+    subject: 审核状态提醒
+    from: pleasurecruise@qq.com
+    to: pleasure@yiming1234.cn
+    host: smtp.qq.com
+    port: 465
 
   alioss:
     endpoint: ${yiming1234.alioss.endpoint}
     access-key-id: ${yiming1234.alioss.access-key-id}
     access-key-secret: ${yiming1234.alioss.access-key-secret}
     bucket-name: ${yiming1234.alioss.bucket-name}
+
+  sanfengyun:
+    username: ${yiming1234.server.username}
+    password: ${yiming1234.server.password}

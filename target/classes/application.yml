@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+
+yiming1234:
+  server:
+    host: ${yiming1234.server.host}
+
+  mail:
+    username: ${yiming1234.mail.username}
+    password: ${yiming1234.mail.password}
+    subject: 审核状态提醒
+    from: pleasurecruise@qq.com
+    to: pleasure@yiming1234.cn
+    host: smtp.qq.com
+    port: 465
+
+  alioss:
+    endpoint: ${yiming1234.alioss.endpoint}
+    access-key-id: ${yiming1234.alioss.access-key-id}
+    access-key-secret: ${yiming1234.alioss.access-key-secret}
+    bucket-name: ${yiming1234.alioss.bucket-name}
+
+  sanfengyun:
+    username: ${yiming1234.server.username}
+    password: ${yiming1234.server.password}
