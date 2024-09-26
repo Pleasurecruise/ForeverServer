@@ -1,6 +1,7 @@
 package cn.yiming1234.foreverserver.service;
 
 import cn.yiming1234.foreverserver.properties.LinkAiProperties;
+import cn.yiming1234.foreverserver.util.AliOssUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
@@ -18,6 +19,9 @@ public class PostArticleService {
 
     @Autowired
     private LinkAiProperties linkAiProperties;
+
+    @Autowired
+    private AliOssUtil aliOssUtil;
 
     private static final String API_URL = "https://api.link-ai.tech/v1/chat/completions";
 
@@ -65,6 +69,23 @@ public class PostArticleService {
     }
 
     /**
-     * 插入文字
+     * 发布论坛或文章
+     *
+     * @return
      */
+    public String postArticle() {
+        // 爬取文章
+        // 调用AI生成文字
+        // 发布文章
+        // 返回url地址
+        return null;
+    }
+
+    /**
+     * 根据url进行截图,上传OSS
+     */
+    public void takeScreenshot() {
+        String url = postArticle();
+
+    }
 }

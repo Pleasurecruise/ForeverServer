@@ -25,4 +25,6 @@ public class ServerController {
         log.info("AI接口返回的内容为：" + response);
         return response;
     }
+
+
 }
