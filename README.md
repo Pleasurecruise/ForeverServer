@@ -14,22 +14,19 @@ ForeverServer，基于Springboot的云端服务器自动续费项目。
 
 发帖人与开通服务器的人是否为同一个
 
-发帖时间与续费时间是否接近等等
-
 这势必会增加审核的工作量和难度
 
-在考虑到上述情况下，可以采用的方式就很多了
+另外，由于“三丰云”作为关键词已经被各大论坛博客拉黑，无法通过直接搜索获取到文章（但并不代表不能发送文章）
+
+只能采取通过每篇文章底部的推荐算法获取相关文章的链接（爬虫）
 
 ![ForeverServer](https://github.com/Demo-Liu/MyPicture/raw/master/FreeServer%E5%BB%B6%E6%9C%9F2.0.png)
 
-## 参考项目
-
-https://github.com/BookerLiu/FreeServer
-
-感谢该项目提供方法与思路指导
+p.s. 图片来自 https://github.com/BookerLiu/FreeServer
 
 ## 项目进度
 
 - [ ] 发布评论或文章
-- [ ] 创建与储存截图
+- [x] 创建与储存截图
 - [ ] 上传审核
+- [x] 获取相关文章链接

@@ -1,5 +1,6 @@
 package cn.yiming1234.foreverserver.service;
 
+import cn.yiming1234.foreverserver.dto.TiebaDTO;
 import cn.yiming1234.foreverserver.properties.MailProperties;
 import cn.yiming1234.foreverserver.properties.ServerProperties;
 import cn.yiming1234.foreverserver.util.MailUtil;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -20,6 +22,12 @@ import java.util.regex.Pattern;
 @Service
 @Slf4j
 public class ServerService {
+
+    @Autowired
+    private MainService mainService;
+
+    @Autowired
+    private TiebaService tiebaService;
 
     @Autowired
     private ServerProperties serverProperties;
@@ -136,7 +144,9 @@ public class ServerService {
                     int totalHours = parseTimeToHours(leftTime);
                     log.info("剩余时间(小时): {}", totalHours);
 
+                    /*如果小于12小时开始执行操作*/
                     if (totalHours < 12) {
+                        mainAction();
                         whenfail();
                     } else {
                         log.info("VPS剩余时间超过12小时");
@@ -201,7 +211,43 @@ public class ServerService {
     }
 
     /**
-     * 失败时执行的操作
+     * 上传审核
+     */
+    public void postAudit() {
+
+    }
+
+    /**
+     * 业务逻辑
+     */
+    public void mainAction() {
+        try {
+            // 执行搜索操作获取url
+            TiebaDTO post = tiebaService.getPosts();
+            // 获取链接和截图
+            String url = post.getUrl();
+            log.info("获取到的链接: {}", url);
+
+            if (post != null) {
+                // 获取截图
+                mainService.getPicture(url);
+                // 储存进数据库
+                String result = mainService.storeUrl(post.getTitle(), post.getUrl(), post.getPublishTime());
+                log.info("材料获取结果: {}", result);
+
+                // TODO 上传审核
+
+            } else {
+                log.warn("No post found to audit.");
+            }
+        } catch (IOException e) {
+            log.error("Error fetching posts or taking screenshot", e);
+        }
+    }
+
+    /**
+     * 还剩12小时时
+     * 执行检索操作
      */
     @Scheduled(fixedRate = 3600000)
     public void whenfail() {
@@ -211,5 +257,4 @@ public class ServerService {
         }
         MailUtil.sendMail(mailProperties.getTo(), mailProperties.getSubject(), status);
     }
-
 }

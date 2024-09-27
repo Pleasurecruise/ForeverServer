@@ -70,22 +70,12 @@ public class PostArticleService {
 
     /**
      * 发布论坛或文章
-     *
-     * @return
      */
-    public String postArticle() {
-        // 爬取文章
-        // 调用AI生成文字
-        // 发布文章
-        // 返回url地址
+    public String getArticle() {
+
+        // TODO 备选方案，暂时不实现
+
         return null;
     }
 
-    /**
-     * 根据url进行截图,上传OSS
-     */
-    public void takeScreenshot() {
-        String url = postArticle();
-
-    }
 }

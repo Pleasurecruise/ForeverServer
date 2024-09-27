@@ -9,6 +9,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   profiles:
     active: dev
+  mybatis:
+    mapper-locations: classpath:mapper/*.xml
+    type-aliases-package: cn.yiming1234.foreverserver.entity
+    configuration:
+      map-underscore-to-camel-case: true
 
 yiming1234:
   server:

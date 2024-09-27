@@ -23,7 +23,6 @@ public class ScreenshotUtil {
             Process process = processBuilder.start();
             process.waitFor();
 
-            log.info("截图已保存至：{} " + screenshotPath);
             return "Screenshot taken and saved to " + screenshotPath;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
