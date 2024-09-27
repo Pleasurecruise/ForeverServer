@@ -30,3 +30,4 @@ bin/
 
 /src/main/resources/application-dev.yml
 /target/classes/application-dev.yml
+/target/classes/main/resources/application-dev.yml
