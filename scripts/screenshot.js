@@ -7,7 +7,7 @@ const puppeteer = require('puppeteer');
     const page = await browser.newPage();
     await page.setRequestInterception(true);
     page.on('request', request => {
-        if (request.url().includes('uni_forceverify_wrapper.js')) {
+        if (request.url().includes('uni_forceverify_wrapper')) {
             request.abort();
         } else {
             request.continue();

@@ -17,6 +17,16 @@ public class ScreenshotUtil {
                 tempDir.mkdir();
             }
             String screenshotPath = "temp/screenshot.png";
+            File screenshotFile = new File(screenshotPath);
+
+            if (screenshotFile.exists()) {
+                if (screenshotFile.delete()) {
+                    log.info("Existing screenshot deleted: " + screenshotPath);
+                } else {
+                    log.error("Failed to delete existing screenshot: " + screenshotPath);
+                    return "Failed to delete existing screenshot.";
+                }
+            }
 
             ProcessBuilder processBuilder = new ProcessBuilder("node", "scripts/screenshot.js", url, screenshotPath);
             processBuilder.redirectErrorStream(true);

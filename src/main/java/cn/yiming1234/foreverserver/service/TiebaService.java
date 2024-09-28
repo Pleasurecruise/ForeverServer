@@ -1,6 +1,8 @@
 package cn.yiming1234.foreverserver.service;
 
 import cn.yiming1234.foreverserver.dto.TiebaDTO;
+import cn.yiming1234.foreverserver.properties.MailProperties;
+import cn.yiming1234.foreverserver.util.MailUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,7 +21,10 @@ import java.util.Random;
 public class TiebaService {
 
     @Autowired
-    private MainService mainService;
+    private MailProperties mailProperties;
+
+    @Autowired
+    private MailUtil mailUtil;
 
     public TiebaDTO getPosts() throws IOException {
         String keyword = "三丰云";
@@ -30,6 +35,8 @@ public class TiebaService {
             document = Jsoup.connect(url).get();
         } catch (IOException e) {
             log.error("Error connecting to URL: {}", url, e);
+            log.info("IP可能达到最大请求次数，请人工操作");
+            mailUtil.sendMail(mailProperties.getTo(), mailProperties.getSubject(), "IP可能达到最大请求次数，请人工操作");
             throw e;
         }
 

@@ -14,6 +14,10 @@ spring:
     type-aliases-package: cn.yiming1234.foreverserver.entity
     configuration:
       map-underscore-to-camel-case: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 yiming1234:
   server:

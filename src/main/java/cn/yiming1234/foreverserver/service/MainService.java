@@ -35,12 +35,7 @@ public class MainService {
      * 避免重复
      */
     public String storeUrl(String title, String url, String time) {
-        Tieba existingTieba = tiebaMapper.getByUrl(url);
-        if (existingTieba != null) {
-            log.info("URL already exists in the database: {}", url);
-            return "URL already exists.";
-        }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
             Timestamp timestamp = new Timestamp(dateFormat.parse(time).getTime());
             Tieba tieba = Tieba.builder()

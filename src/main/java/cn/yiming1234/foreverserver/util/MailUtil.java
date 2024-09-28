@@ -16,13 +16,17 @@ import java.io.File;
 @Slf4j
 public class MailUtil {
 
+    private final JavaMailSender mailSender;
+
     @Autowired
-    private static JavaMailSender mailSender;
+    public MailUtil(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
 
     /**
      * 发送文本邮件
      */
-    public static void sendMail(String to, String subject, String text) {
+    public void sendMail(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("pleasurecruise@qq.com");
         message.setTo(to);
