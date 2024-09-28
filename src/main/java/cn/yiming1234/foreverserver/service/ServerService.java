@@ -215,10 +215,7 @@ public class ServerService {
      */
     public String getStatus() {
         try {
-            String sessionId = (String) redisTemplate.opsForValue().get("session_id");
-            if (sessionId == null || !isSessionIdValid(sessionId)) {
-                sessionId = getSessionId().get();
-            }
+            String sessionId = getSessionId().get();
             HttpClient client = HttpClient.newHttpClient();
 
             String requestBody = "cmd=free_delay_list&ptype=vps&count=10&page=1";
