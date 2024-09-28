@@ -108,6 +108,30 @@ public class ServerService {
     }
 
     /**
+     * 检查session_id是否过期
+     */
+    private boolean isSessionIdValid(String sessionId) {
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(VPS_URL))
+                    .header("User-Agent", USER_AGENT)
+                    .header("Content-Type", "application/x-www-form-urlencoded")
+                    .header("Cookie", "session_id=" + sessionId)
+                    .POST(HttpRequest.BodyPublishers.ofString("cmd=vps_list&vps_type=free"))
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            log.info("检查Session ID响应状态码: {}", response.statusCode());
+
+            return response.statusCode() == 200;
+        } catch (Exception e) {
+            log.error("检查Session ID时发生错误", e);
+            return false;
+        }
+    }
+
+    /**
      * 解析时间字符串为小时数
      */
     private int parseTimeToHours(String timeStr) {
@@ -135,9 +159,9 @@ public class ServerService {
     @Scheduled(fixedRate = 10800000)
     public void getTime() {
         try {
-            getSessionId();
+            String sessionId = getSessionId().get();
+            log.info("Session ID: {}", sessionId);
             HttpClient client = HttpClient.newHttpClient();
-            String sessionId = String.valueOf(getSessionId());
 
             String requestBody = "cmd=vps_list&vps_type=free";
             HttpRequest request = HttpRequest.newBuilder()
@@ -191,8 +215,11 @@ public class ServerService {
      */
     public String getStatus() {
         try {
-            HttpClient client = HttpClient.newHttpClient();
             String sessionId = (String) redisTemplate.opsForValue().get("session_id");
+            if (sessionId == null || !isSessionIdValid(sessionId)) {
+                sessionId = getSessionId().get();
+            }
+            HttpClient client = HttpClient.newHttpClient();
 
             String requestBody = "cmd=free_delay_list&ptype=vps&count=10&page=1";
             HttpRequest request = HttpRequest.newBuilder()
@@ -239,8 +266,11 @@ public class ServerService {
     @Async
     public CompletableFuture<Void> postAudit(String url) {
         try {
-            HttpClient client = HttpClient.newHttpClient();
             String sessionId = (String) redisTemplate.opsForValue().get("session_id");
+            if (sessionId == null || !isSessionIdValid(sessionId)) {
+                sessionId = getSessionId().get();
+            }
+            HttpClient client = HttpClient.newHttpClient();
 
             Path filePath = Paths.get(System.getProperty("user.dir"), "temp", "screenshot.png");
             byte[] fileBytes = Files.readAllBytes(filePath);
