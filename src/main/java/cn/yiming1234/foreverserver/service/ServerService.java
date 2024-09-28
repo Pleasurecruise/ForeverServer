@@ -137,7 +137,7 @@ public class ServerService {
         try {
             getSessionId();
             HttpClient client = HttpClient.newHttpClient();
-            String sessionId = (String) redisTemplate.opsForValue().get("session_id");
+            String sessionId = String.valueOf(getSessionId());
 
             String requestBody = "cmd=vps_list&vps_type=free";
             HttpRequest request = HttpRequest.newBuilder()
@@ -163,8 +163,8 @@ public class ServerService {
                     JSONObject vpsInfo = contentArray.getJSONObject(0);
                     String leftTime = vpsInfo.getString("left_time");
                     log.info("VPS 剩余时间: {}", leftTime);
-//                    int totalHours = parseTimeToHours(leftTime);
-                    int totalHours = 11;
+                    int totalHours = parseTimeToHours(leftTime);
+                    //int totalHours = 11; //用于测试
                     log.info("剩余时间(小时): {}", totalHours);
 
                     /*如果小于12小时开始执行操作*/
@@ -280,6 +280,7 @@ public class ServerService {
                     mailUtil.sendMail(mailProperties.getTo(), mailProperties.getSubject(), msg);
                     throw new RuntimeException("审核上传失败，错误信息: " + msg);
                 } else {
+                    mailUtil.sendMail(mailProperties.getTo(), mailProperties.getSubject(), "审核上传成功");
                     log.info("审核上传成功: {}", response.body());
                 }
             } else {
