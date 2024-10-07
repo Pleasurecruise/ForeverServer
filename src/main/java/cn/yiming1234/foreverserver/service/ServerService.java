@@ -324,6 +324,7 @@ public class ServerService {
     /**
      * 业务逻辑
      */
+    private TiebaDTO post;
     @Async
     public CompletableFuture<Void> mainAction() {
         try {
@@ -347,8 +348,6 @@ public class ServerService {
             }
             // 截图操作
             mainService.getPicture(url);
-            String result = mainService.storeUrl(post.getTitle(), post.getUrl(), post.getPublishTime());
-            log.info("材料获取结果: {}", result);
             // 上传审核
             postAudit(url);
             return CompletableFuture.completedFuture(null);
@@ -364,8 +363,11 @@ public class ServerService {
      */
     @Scheduled(fixedRate = 3600000)
     public void whenfail() {
+        mailUtil.sendMail(mailProperties.getTo(), mailProperties.getSubject(), "服务器剩余时间不到12小时");
         String status = getStatus();
         if ("审核通过".equals(status)) {
+            String result = mainService.storeUrl(post.getTitle(), post.getUrl(), post.getPublishTime());
+            log.info("材料获取结果: {}", result);
             return;
         }
         mailUtil.sendMail(mailProperties.getTo(), mailProperties.getSubject(), status);

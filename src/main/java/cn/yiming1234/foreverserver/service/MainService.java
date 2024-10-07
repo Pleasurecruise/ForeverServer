@@ -2,6 +2,8 @@ package cn.yiming1234.foreverserver.service;
 
 import cn.yiming1234.foreverserver.entity.Tieba;
 import cn.yiming1234.foreverserver.mapper.TiebaMapper;
+import cn.yiming1234.foreverserver.properties.MailProperties;
+import cn.yiming1234.foreverserver.util.MailUtil;
 import cn.yiming1234.foreverserver.util.ScreenshotUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,17 @@ public class MainService {
 
     @Autowired
     private TiebaMapper tiebaMapper;
+    @Autowired
+    private MailUtil mailUtil;
+    @Autowired
+    private MailProperties mailProperties;
 
     /**
      * 获取图片并本地临时储存
      */
     public String getPicture(String url) {
         String result = screenshotUtil.takeScreenshot(url);
+        mailUtil.sendMail(mailProperties.getTo(), "截图结果", result);
         log.info("截图结果: " + result);
         return result;
     }
